@@ -1,169 +1,316 @@
-import React, { Component } from 'react'
-import Dashboard from './Dashboard'
+import React from 'react'
+import {Formik} from 'formik'
+import * as Yup from 'yup'
+import {Link} from 'react-router-dom'
 
-class Register extends Component {
+const Register = () => {
+    return (
+        <div>
+            <h3>Reegister Here</h3>
+            <Formik
+                initialValues = {
+                    {email: "",
+                    username: "",
+                    password: "",
+                    cnfpassword: ""
+                }}
 
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            email: '',
-            username: '',
-            password: '',
-            cnfpassword: '',
-            emailError:'',
-            userError: '',
-            passError: '',
-            cnfError: ''
-        }
+                onSubmit = {(
+                    values, {setSubmitting}) => {
+                        setTimeout(() => {
+                            console.log('Registered successfully', values)
+                        },500)
+                    }
+                }
 
-        // this.handleCnfPasswordChange = this.handleCnfPasswordChange.bind(this);
-        // this.handleEmailChange = this.handleEmailChange.bind(this);
-        // this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        // this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-        // this.isValid = this.isValid.bind(this);
-    }
+                //Validation Rules
 
-    isValid = (e) =>{
-        //USERNAME ERROR CONDITIONS
-        if (this.state.username.includes("") || this.state.username.length<=5){
-            this.setState({
-                userError:"Invalid username"
-            })
-        }
-        // //EMAIL ERROR CONDITIONS
-        if (!this.state.email.includes("@") || this.state.emailError.includes("")){
-            this.setState({
-                emailError: "Invalid email"
-            })
-        }
-        //PASSWORD ERROR CONDITIONS
-        else if (this.state.password.includes("#") || this.state.password.includes("$") || this.state.password.includes("%") || this.state.password.includes("^") || this.state.password.includes("?")){
-            this.setState({
-                passError: "Invalid form of password"
-            })
-        }
-        else if (this.state.password.includes("") || this.state.password.length<=8){
-            this.setState({
-                passError: "Password should be atleast of 8 characters"
-            })
-        }
-        //CONFIRM PASSWORD ERROR CONDITIONS
-        else if(this.state.cnfpassword !== this.state.password){
-            this.setState({
-                cnfError: "Password and Confirm password do not match"
-            })
-        }
-        else if (this.state.cnfpassword.includes("")){
-            this.setState({
-                cnfError: "Confirm password field cannot be empty"
-            })
-        }
-        else {
-            return true
-        }
-    }
-    
-    handleSubmit = (e) => {
-        if (this.isValid()){
-            e.preventDefault()
-            alert(`Thank You for Registering with us ${this.state.email}`)
-            // this.setState({
-            //     email:'',
-            //     username: '', 
-            //     password: '',
-            //     cnfpassword:''
-            // })
-        }
-        else {
-            return 'Error encountered'
-        }
-    }
+                validationSchema = {Yup.object().shape({
+                    email: Yup.string()
+                    .required("Email Id is mandatory"), 
 
-    handleUsernameChange = (e) => {
-        this.setState({
-            username: e.target.value
-        })
-    }
+                    username: Yup.string()
+                    .required("Username is mandatory"),
+                    
+                    password: Yup.string()
+                    .required("Password cannot be blank")
+                    .min(8, "Password too short. It should atleast have 8 characters")
+                    .matches(/(?=.*[0-9])/, "Password should contain a number")
+                })}
+            >
 
-    handlePasswordChange = (e) => {
-        this.setState({
-            password: e.target.value
-        })
-    }
+                {props => {
+                    const {
+                        values,
+                        touched,
+                        errors,
+                        isSubmitting,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit
+                    } = props;
 
-    handleCnfPasswordChange = (e) => {
-        this.setState({
-            cnfpassword: e.target.value
-        })
-    }
+                    return (
+                        <form autoComplete="off" onSubmit={handleSubmit}>
 
+                            <label htmlFor="email">E-mail Id</label>
+                            <br></br>
+                            <input
+                                type="text"
+                                placeholder="Enter your email id"
+                                name="email"
+                                onChange={handleChange}
+                                value={values.email}
+                                onBlur={handleBlur}
+                                className={errors.email && touched.email && "error"}
+                            />
 
-    handleEmailChange = (e) =>{
-        this.setState({
-            email:e.target.value
-        })
-    }
-    
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <h1>Register Here!</h1>
+                            {errors.email && touched.email && (
+                                <div className="input-feedback">{errors.email}</div>
+                            )}
 
-                    <label style={{textAlign:'left'}}>E-Mail</label><br></br>
-                    <input 
-                        type="text"
-                        placeholder="Enter your valid email id"
-                        value={this.state.email}
-                        onChange={this.handleEmailChange}
-                    /><br></br>
-                    <span style={{color: "red"}}>{this.state.emailError}</span>
+                            <br></br>
+                            <label htmlFor="usename">Username</label>
+                            <br></br>
+                            <input
+                                type="text"
+                                placeholder="Choose your username"
+                                name="username"
+                                onChange={handleChange}
+                                value={values.username}
+                                onBlur={handleBlur}
+                                className={errors.username && touched.username && "error"}
+                            />
 
-                    <br></br>
+                            {errors.username && touched.username && (
+                                <div className="input-feedback">{errors.username}</div>
+                            )}
 
-                    <label style={{textAlign:'left'}}>Username</label><br></br>
-                    <input 
-                        type="text"
-                        placeholder="Enter any username"
-                        value={this.state.username}
-                        onChange={this.handleUsernameChange}
-                    /><br></br>
-                    <span style={{color: "red"}}>{this.state.userError}</span>
+                            <br></br>
+                            <label htmlFor="password">Password</label>
+                            <br></br>
+                            <input
+                                type="password"
+                                placeholder="Choose your password"
+                                name="password"
+                                onChange={handleChange}
+                                value={values.password}
+                                onBlur={handleBlur}
+                                className={errors.password && touched.password && "error"}
+                            />
 
-                    <br></br>
-                    <label style={{textAlign:'left'}}>Password</label><br></br>
-                    <input
-                        type="password"
-                        placeholder="Create password"                       
-                        value={this.state.password}
-                        onChange={this.handlePasswordChange}
-                    /><br></br>
-                    <span style={{color: "red"}}>{this.state.passError}</span>
+                            {errors.password && touched.password && (
+                                <div className="input-feedback">{errors.password}</div>
+                            )}
 
-                    <br></br>
+                            <br></br>
+                            <label htmlFor="cnfPassword">Confirm Password</label>
+                            <br></br>
+                            <input
+                                type="password"
+                                placeholder="Retype yout password"
+                                name="cnfpassword"
+                                onChange={handleChange}
+                                value={values.cnfpassword}
+                                onBlur={handleBlur}
+                                className={errors.cnfpassword && touched.cnfpassword && "error"}
+                            />
 
-                    <label style={{textAlign:'left'}}>Confirm Password</label><br></br>
-                    <input
-                        type="password"
-                        placeholder="Retype your Password"
-                        value={this.state.cnfpassword}
-                        onChange={this.handleCnfPasswordChange}
-                    /><br></br>
-                    <span style={{color: "red"}}>{this.state.cnfError}</span>
+                            {errors.cnfpassword && touched.cnfpassword && (
+                                <div className="input-feedback">{errors.cnfpassword}</div>
+                            )}
 
-                    <br></br>
-                    <button 
-                        className="button button4"
-                    >
-                        Register Here
-                    </button>
-                </form>
-            </div>
-        )
-    }
+                            <br></br>
+                            <Link to="/">
+                            <button
+                                disabled={isSubmitting}
+                                type="submit"
+                                className="button button4"
+                                onClick={handleSubmit}
+                            >
+                                Register
+                            </button>
+                            </Link>
+                        </form>
+                    )
+                }}
+
+            </Formik>
+        </div>
+    )
 }
 
-
 export default Register
+
+
+
+
+// import React, { Component } from 'react'
+// import Dashboard from './Dashboard'
+
+// class Register extends Component {
+
+//     constructor(props) {
+//         super(props)
+    
+//         this.state = {
+//             email: '',
+//             username: '',
+//             password: '',
+//             cnfpassword: '',
+//             emailError:'',
+//             userError: '',
+//             passError: '',
+//             cnfError: ''
+//         }
+
+//         // this.handleCnfPasswordChange = this.handleCnfPasswordChange.bind(this);
+//         // this.handleEmailChange = this.handleEmailChange.bind(this);
+//         // this.handlePasswordChange = this.handlePasswordChange.bind(this);
+//         // this.handleUsernameChange = this.handleUsernameChange.bind(this);
+//         // this.handleSubmit = this.handleSubmit.bind(this);
+//         // this.isValid = this.isValid.bind(this);
+//     }
+
+//     isValid = (e) =>{
+//         //USERNAME ERROR CONDITIONS
+//         if (this.state.username.includes("") || this.state.username.length<=5){
+//             this.setState({
+//                 userError:"Invalid username"
+//             })
+//         }
+//         // //EMAIL ERROR CONDITIONS
+//         if (!this.state.email.includes("@") || this.state.emailError.includes("")){
+//             this.setState({
+//                 emailError: "Invalid email"
+//             })
+//         }
+//         //PASSWORD ERROR CONDITIONS
+//         else if (this.state.password.includes("#") || this.state.password.includes("$") || this.state.password.includes("%") || this.state.password.includes("^") || this.state.password.includes("?")){
+//             this.setState({
+//                 passError: "Invalid form of password"
+//             })
+//         }
+//         else if (this.state.password.includes("") || this.state.password.length<=8){
+//             this.setState({
+//                 passError: "Password should be atleast of 8 characters"
+//             })
+//         }
+//         //CONFIRM PASSWORD ERROR CONDITIONS
+//         else if(this.state.cnfpassword !== this.state.password){
+//             this.setState({
+//                 cnfError: "Password and Confirm password do not match"
+//             })
+//         }
+//         else if (this.state.cnfpassword.includes("")){
+//             this.setState({
+//                 cnfError: "Confirm password field cannot be empty"
+//             })
+//         }
+//         else {
+//             return true
+//         }
+//     }
+    
+//     handleSubmit = (e) => {
+//         if (this.isValid()){
+//             e.preventDefault()
+//             alert(`Thank You for Registering with us ${this.state.email}`)
+//             // this.setState({
+//             //     email:'',
+//             //     username: '', 
+//             //     password: '',
+//             //     cnfpassword:''
+//             // })
+//         }
+//         else {
+//             return 'Error encountered'
+//         }
+//     }
+
+//     handleUsernameChange = (e) => {
+//         this.setState({
+//             username: e.target.value
+//         })
+//     }
+
+//     handlePasswordChange = (e) => {
+//         this.setState({
+//             password: e.target.value
+//         })
+//     }
+
+//     handleCnfPasswordChange = (e) => {
+//         this.setState({
+//             cnfpassword: e.target.value
+//         })
+//     }
+
+
+//     handleEmailChange = (e) =>{
+//         this.setState({
+//             email:e.target.value
+//         })
+//     }
+    
+//     render() {
+//         return (
+//             <div>
+//                 <form onSubmit={this.handleSubmit}>
+//                     <h1>Register Here!</h1>
+
+//                     <label style={{textAlign:'left'}}>E-Mail</label><br></br>
+//                     <input 
+//                         type="text"
+//                         placeholder="Enter your valid email id"
+//                         value={this.state.email}
+//                         onChange={this.handleEmailChange}
+//                     /><br></br>
+//                     <span style={{color: "red"}}>{this.state.emailError}</span>
+
+//                     <br></br>
+
+//                     <label style={{textAlign:'left'}}>Username</label><br></br>
+//                     <input 
+//                         type="text"
+//                         placeholder="Enter any username"
+//                         value={this.state.username}
+//                         onChange={this.handleUsernameChange}
+//                     /><br></br>
+//                     <span style={{color: "red"}}>{this.state.userError}</span>
+
+//                     <br></br>
+//                     <label style={{textAlign:'left'}}>Password</label><br></br>
+//                     <input
+//                         type="password"
+//                         placeholder="Create password"                       
+//                         value={this.state.password}
+//                         onChange={this.handlePasswordChange}
+//                     /><br></br>
+//                     <span style={{color: "red"}}>{this.state.passError}</span>
+
+//                     <br></br>
+
+//                     <label style={{textAlign:'left'}}>Confirm Password</label><br></br>
+//                     <input
+//                         type="password"
+//                         placeholder="Retype your Password"
+//                         value={this.state.cnfpassword}
+//                         onChange={this.handleCnfPasswordChange}
+//                     /><br></br>
+//                     <span style={{color: "red"}}>{this.state.cnfError}</span>
+
+//                     <br></br>
+//                     <button 
+//                         className="button button4"
+//                     >
+//                         Register Here
+//                     </button>
+//                 </form>
+//             </div>
+//         )
+//     }
+// }
+
+
+// export default Register
