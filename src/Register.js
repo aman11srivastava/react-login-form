@@ -2,17 +2,19 @@ import React from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 import {Link} from 'react-router-dom'
+import {useState} from 'react'
 
 const Register = () => {
     return (
-        <div>
-            <h3>Reegister Here</h3>
+        <div className="box">
+            <h3 id="one">Register Here</h3>
+            <h6>(Fields marked with * are mandatory)</h6>
             <Formik
                 initialValues = {
                     {email: "",
                     username: "",
                     password: "",
-                    cnfpassword: ""
+                    contact: ""
                 }}
 
                 onSubmit = {(
@@ -32,10 +34,14 @@ const Register = () => {
                     username: Yup.string()
                     .required("Username is mandatory"),
                     
+                    contact: Yup.string()
+                    .matches(/(?=.*[0-9])/, "Mobile number must contain a number"),
+
                     password: Yup.string()
                     .required("Password cannot be blank")
                     .min(8, "Password too short. It should atleast have 8 characters")
                     .matches(/(?=.*[0-9])/, "Password should contain a number")
+                    
                 })}
             >
 
@@ -53,7 +59,7 @@ const Register = () => {
                     return (
                         <form autoComplete="off" onSubmit={handleSubmit}>
 
-                            <label htmlFor="email">E-mail Id</label>
+                            <label htmlFor="email">E-mail Id*</label>
                             <br></br>
                             <input
                                 type="text"
@@ -70,7 +76,7 @@ const Register = () => {
                             )}
 
                             <br></br>
-                            <label htmlFor="usename">Username</label>
+                            <label htmlFor="usename">Username*</label>
                             <br></br>
                             <input
                                 type="text"
@@ -87,7 +93,7 @@ const Register = () => {
                             )}
 
                             <br></br>
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Password*</label>
                             <br></br>
                             <input
                                 type="password"
@@ -104,20 +110,20 @@ const Register = () => {
                             )}
 
                             <br></br>
-                            <label htmlFor="cnfPassword">Confirm Password</label>
+                            <label htmlFor="contact">Mobile Number</label>
                             <br></br>
                             <input
-                                type="password"
-                                placeholder="Retype yout password"
-                                name="cnfpassword"
+                                type="text"
+                                placeholder="Enter your Mobile Number"
+                                name="contact"
                                 onChange={handleChange}
-                                value={values.cnfpassword}
+                                value={values.contact}
                                 onBlur={handleBlur}
-                                className={errors.cnfpassword && touched.cnfpassword && "error"}
+                                className={errors.contact && touched.contact && "error"}
                             />
 
-                            {errors.cnfpassword && touched.cnfpassword && (
-                                <div className="input-feedback">{errors.cnfpassword}</div>
+                            {errors.contact && touched.contact && (
+                                <div className="input-feedback">{errors.contact}</div>
                             )}
 
                             <br></br>
@@ -131,6 +137,10 @@ const Register = () => {
                                 Register
                             </button>
                             </Link>
+                            <h3 id="small">Already Registered?</h3>
+                            <Link to="/">
+                                <h4>Back to Login</h4>
+                            </Link>
                         </form>
                     )
                 }}
@@ -141,9 +151,6 @@ const Register = () => {
 }
 
 export default Register
-
-
-
 
 // import React, { Component } from 'react'
 // import Dashboard from './Dashboard'

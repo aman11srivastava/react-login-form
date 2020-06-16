@@ -10,8 +10,9 @@ import * as Yup from 'yup'
 const Login = (e) => {
 
     return(
-        <div>
-            <h3>Login Here</h3>
+        <div className="box">
+            <h3 id="one">Login Here</h3>
+            <h6>(Fields marked with * are mandatory)</h6>
             <Formik 
                 initialValues = {
                     {username: "",
@@ -49,9 +50,10 @@ const Login = (e) => {
                     } = props;
 
                     return (
+                        <div className="box-in">
                             <form autoComplete="off" onSubmit={handleSubmit}>
 
-                                <label htmlFor="username">Username</label>
+                                <label className="lb" htmlFor="username">Username*</label>
                                 <br></br>
                                 <input 
                                     type="text" 
@@ -60,7 +62,7 @@ const Login = (e) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.username}
-                                    className={errors.username && touched.username && "error"}
+                                    className={errors.username && touched.username && "error texts-box"}
                                 />
 
                                 {errors.username && touched.username && (
@@ -68,7 +70,7 @@ const Login = (e) => {
                                 )}
 
                                 <br></br>
-                                <label htmlFor="password">Password</label>
+                                <label className="lb" htmlFor="password">Password*</label>
                                 <br></br>
                                 <input 
                                     value={values.password}
@@ -77,7 +79,7 @@ const Login = (e) => {
                                     onBlur={handleBlur}
                                     placeholder="Enter your password"  
                                     name="password"
-                                    className={errors.password && touched.password && "error"}
+                                    className={errors.password && touched.password && "error texts-box"}
                                 />
 
                                 {errors.password && touched.password && (
@@ -96,11 +98,12 @@ const Login = (e) => {
                                     </button>
                                 </Link>
                             
-                            <h3>New Here?</h3>
+                            <h3 id="small">New Here?</h3>
                             <Link to="/register">
                                 <h4>Register</h4>
                             </Link>
                             </form>
+                            </div>
                         )
                 }}
             </Formik>

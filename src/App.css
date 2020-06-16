@@ -1,6 +1,35 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
   background-color: #ccc;
+}
+
+.box-in{
+  text-align: center;
+}
+
+.lb{
+  text-align: left;
+}
+
+.box{
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding-left: 40px;
+  padding-bottom: 20px;
+  padding-top: 5px;
+  border: #555;
+}
+
+label{
+  text-align: left;
+  font-weight: bold;
+}
+
+#one{
+  font-size: 30px;
+  font-family: Arial;
+  margin-bottom: 20px;
+  font-weight: bolder;
 }
 
 input[type=text] {
@@ -12,6 +41,7 @@ input[type=text] {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   outline: none;
+  font-family: 'roboto';
 }
 
 input[type=text]:focus {
@@ -46,6 +76,7 @@ input[type=password]:focus {
   margin: 4px 2px;
   transition-duration: 0.4s;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .button4 {
@@ -55,20 +86,12 @@ input[type=password]:focus {
 }
 
 .button4:hover {
-  background-color: #e7e7e7;
+  /* background-color: #e7e7e7; */
   color:white;
+  background-color: green;
+  font-weight: bold  
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -79,6 +102,20 @@ input[type=password]:focus {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+#small{
+  font-size: 14px;
+  margin-bottom: -6px;
+}
+
+h6{
+  margin-top: -6px;
+  margin-bottom: 10px;
+}
+
+h4{
+  font-size: 12px;
 }
 
 .App-link {
