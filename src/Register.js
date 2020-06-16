@@ -127,16 +127,16 @@ const Register = () => {
                             )}
 
                             <br></br>
-                            <Link to="/">
+                            <Link to={{pathname: "/"}}>
                             <button
                                 disabled={isSubmitting}
                                 type="submit"
                                 className="button button4"
-                                onClick={handleSubmit}
                             >
                                 Register
                             </button>
                             </Link>
+
                             <h3 id="small">Already Registered?</h3>
                             <Link to="/">
                                 <h4>Back to Login</h4>

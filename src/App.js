@@ -17,13 +17,15 @@ class App extends Component {
   
   render() {
     return (
-      <Router>
       <div className="App">
+      <Router>
+        <Switch>
         <Route path="/" exact component={Login}/>
         <Route path="/register" exact component={Register}/>
         <Route path="/dashboard" exact component={Dashboard}/>
-      </div>
+        </Switch>
       </Router>
+      </div>
     )
   }
 }
