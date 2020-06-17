@@ -14,6 +14,7 @@ const Login = (e) => {
             console.log("Logging in", values);
           }, 500);
         }}
+        
         //Validation rules
 
         validationSchema={Yup.object().shape({
@@ -40,7 +41,8 @@ const Login = (e) => {
 
           return (
             <form autoComplete="off" onSubmit={handleSubmit}>
-              <label htmlFor="username">Username</label>
+              <h6>(Fields marked with * are mandatory)</h6>
+              <label htmlFor="username">Username*</label>
               <br></br>
               <input
                 type="text"
@@ -57,7 +59,7 @@ const Login = (e) => {
               )}
 
               <br></br>
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">Password*</label>
               <br></br>
               <input
                 value={values.password}
@@ -78,6 +80,7 @@ const Login = (e) => {
                 <button
                   //disabled={isSubmitting}
                   type="submit"
+                  onClick={(e) => alert(`Login Successful. Welcome ${values.username}`)}
                   className="button button4"
                 >
                   Login
